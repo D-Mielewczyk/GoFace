@@ -5,6 +5,7 @@ import (
     "log"
     "os"
     "path/filepath"
+    "time"
 
     "github.com/D-Mielewczyk/GoFace/internal/detection"
     "github.com/D-Mielewczyk/GoFace/internal/utils"
@@ -17,6 +18,7 @@ func main() {
     var outputDir string
     var drawCircle bool
     var showHelp bool
+    var measurePerformance bool
 
     flag.StringVar(&outputDir, "output", "output", "Specify the output directory.")
     flag.StringVar(&outputDir, "o", "output", "(shorthand).")
@@ -24,6 +26,8 @@ func main() {
     flag.BoolVar(&drawCircle, "c", false, "(shorthand).")
     flag.BoolVar(&showHelp, "help", false, "Show help message.")
     flag.BoolVar(&showHelp, "h", false, "(shorthand).")
+    flag.BoolVar(&measurePerformance, "performance", false, "Measure the performance of image processing.")
+    flag.BoolVar(&measurePerformance, "p", false, "(shorthand).")
 
     flag.Usage = func() {
         log.Printf("Usage of %s:\n", os.Args[0])
@@ -46,8 +50,15 @@ func main() {
     arg := args[0]
 
     processImage := func(imagePath string) {
+        startTime := time.Now()
+
         log.Printf("Processing file: %s", imagePath)
         detection.DetectFace(imagePath, outputDir, drawCircle, "")
+
+        if measurePerformance {
+            duration := time.Since(startTime)
+            log.Printf("Processing time for %s: %v", imagePath, duration)
+        }
     }
 
     files, err := os.ReadDir("images")
