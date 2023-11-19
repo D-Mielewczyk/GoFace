@@ -19,11 +19,11 @@ func main() {
     var showHelp bool
 
     flag.StringVar(&outputDir, "output", "output", "Specify the output directory.")
-    flag.StringVar(&outputDir, "o", "output", "Specify the output directory (shorthand).")
+    flag.StringVar(&outputDir, "o", "output", "(shorthand).")
     flag.BoolVar(&drawCircle, "circle", false, "Draw circles around faces instead of rectangles.")
-    flag.BoolVar(&drawCircle, "c", false, "Draw circles around faces instead of rectangles (shorthand).")
+    flag.BoolVar(&drawCircle, "c", false, "(shorthand).")
     flag.BoolVar(&showHelp, "help", false, "Show help message.")
-    flag.BoolVar(&showHelp, "h", false, "Show help message (shorthand).")
+    flag.BoolVar(&showHelp, "h", false, "(shorthand).")
 
     flag.Usage = func() {
         log.Printf("Usage of %s:\n", os.Args[0])
