@@ -70,3 +70,11 @@ By default, rectangles are drawn around detected faces. You can choose to draw c
 ### Output
 
 The processed images will be saved in the `output` directory with the same file names as the input images.
+
+## Acknowledgments and References
+
+### Pigo - Pure Go Face Detection Library
+
+This project utilizes [Pigo](https://github.com/esimov/pigo), a pure Go library for face detection, as a key component in the face detection process. Pigo provides an efficient and easy-to-use way to detect faces in images without any external dependencies.
+
+For more information about Pigo and its usage, visit the [Pigo GitHub repository](https://github.com/esimov/pigo/tree/master).
