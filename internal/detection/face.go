@@ -7,16 +7,15 @@ import (
 	"log"
 	"os"
 
-	pigo "github.com/esimov/pigo/core"
-
 	"github.com/D-Mielewczyk/GoFace/internal/utils"
+	pigo "github.com/esimov/pigo/core"
 )
 
 func DetectFace(image_path, output_dir string, circle bool, cascade_path string) {
 	// image_path must be provided hover you can ommit cascade_path for a default value
 	log.Println("Starting...")
 
-	if cascade_path == ""{
+	if cascade_path == "" {
 		cascade_path = "cascade/facefinder"
 	}
 	cascadeFile, err := os.ReadFile(cascade_path)
@@ -94,17 +93,15 @@ func DetectFace(image_path, output_dir string, circle bool, cascade_path string)
 	// Save the modified image
 	output_path := utils.ConvertPath(image_path, output_dir)
 	outFile, err := os.Create(output_path)
-    if err != nil {
-        log.Fatalf("Cannot create output file %v, because of:\n%v", output_path, err)
-    }
-    defer outFile.Close()
+	if err != nil {
+		log.Fatalf("Cannot create output file %v, because of:\n%v", output_path, err)
+	}
+	defer outFile.Close()
 
-    err = jpeg.Encode(outFile, dst, nil)
-    if err != nil {
-        log.Fatalf("Cannot save the image %v, because of:\n%v", output_path, err)
-    }
+	err = jpeg.Encode(outFile, dst, nil)
+	if err != nil {
+		log.Fatalf("Cannot save the image %v, because of:\n%v", output_path, err)
+	}
 
-    log.Printf("Output image saved as %v", output_path)
+	log.Printf("Output image saved as %v", output_path)
 }
-
-
