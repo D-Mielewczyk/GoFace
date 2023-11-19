@@ -118,3 +118,13 @@ go test ./tests
 This project utilizes [Pigo](https://github.com/esimov/pigo), a pure Go library for face detection, as a key component in the face detection process. Pigo provides an efficient and easy-to-use way to detect faces in images without any external dependencies.
 
 For more information about Pigo and its usage, visit the [Pigo GitHub repository](https://github.com/esimov/pigo/tree/master).
+
+### Sources for Test Images
+
+For testing the face detection capabilities, you can obtain images from various sources. Here are some suggestions:
+
+- [Dorian Studio](https://www.dorianstudio.com) - Specializes in school photography, offering a range of portraits and group photos.
+- [Adobe Stock](https://stock.adobe.com/) - A rich resource for high-quality stock images, including a wide range of facial photos.
+- [Miedzyrzecz Photography](https://miedzyrzecz.biz/) - An informational portal featuring news and information about Międzyrzecz and the surrounding region.
+
+Note: Ensure to respect copyright and usage rights when using images from these sources.
