@@ -26,7 +26,7 @@ This executable allows you to run the GoFace project directly, without needing G
 
 ## CLI Usage
 
-The GoFace CLI provides a simple interface to run face detection on images. You can specify an individual image or process all images within a directory. Additionally, you have the option to draw either circles or rectangles around detected faces.
+The GoFace CLI provides a simple interface to run face detection on images. You can specify an individual image or process all images within a directory. Additionally, you have the option to draw either circles or rectangles around detected faces, specify the output directory, get help information, and measure performance.
 
 ### Commands
 
@@ -67,9 +67,33 @@ The GoFace CLI provides a simple interface to run face detection on images. You 
       go run ./cmd/GoFace -c -o outputdir all
       ```
 
+4. **Display Help Information:**
+
+    To display help information about the available commands and flags, use the `-h` flag.
+
+    ```powershell
+    go run ./cmd/GoFace -h
+    ```
+
+5. **Measure Performance:**
+
+    To measure and display the performance of the face detection process, use the `-p` flag.
+
+    - For a single image:
+
+      ```powershell
+      go run ./cmd/GoFace -p -o outputdir <image_file_name>
+      ```
+
+    - For all images:
+
+      ```powershell
+      go run ./cmd/GoFace -p -o outputdir all
+      ```
+
 ### Output
 
-The processed images will be saved in the `output` directory with the same file names as the input images.
+By default the processed images will be saved in the `output` directory with the same file names as the input images.
 
 ## Running Tests
 
