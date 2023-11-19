@@ -19,3 +19,9 @@
 
 # Go workspace file
 go.work
+camtron-linux-x64
+camtron-win32-x64
+camtron-win32-x64.zip
+camtron-linux-x64.zip
+videos
+*.log
