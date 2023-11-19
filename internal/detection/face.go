@@ -13,7 +13,7 @@ import (
 )
 
 // image_path must be provided hover you can ommit cascade_path for a default value
-func DetectFace(image_path string, cascade_path string) {
+func DetectFace(image_path string, cascade_path string, circle bool) {
 
 	if cascade_path == "" {
 		cascade_path = "cascade/facefinder"
@@ -83,7 +83,11 @@ func DetectFace(image_path string, cascade_path string) {
 	// Draw rectangles around detected faces
 	for _, det := range dets {
 		if det.Q > 5 {
-			drawRectangle(dst, det.Col-det.Scale/2, det.Row-det.Scale/2, det.Scale, det.Scale)
+			if circle {
+				drawCircle(dst, det.Col, det.Row, det.Scale/2)
+			} else {
+				drawRectangle(dst, det.Col-det.Scale/2, det.Row-det.Scale/2, det.Scale, det.Scale)
+			}
 		}
 	}
 
@@ -116,6 +120,35 @@ func drawRectangle(img *image.RGBA, x, y, width, height int) {
 	for i := y; i < y+height; i++ {
 		img.Set(x, i, red)
 		img.Set(x+width, i, red)
+	}
+}
+
+func drawCircle(img *image.RGBA, centerX, centerY, radius int) {
+	color := color.RGBA{255, 0, 0, 255}
+
+	putPixel := func(x, y int) {
+		img.Set(centerX+x, centerY+y, color)
+		img.Set(centerX-x, centerY+y, color)
+		img.Set(centerX+x, centerY-y, color)
+		img.Set(centerX-x, centerY-y, color)
+		img.Set(centerX+y, centerY+x, color)
+		img.Set(centerX-y, centerY+x, color)
+		img.Set(centerX+y, centerY-x, color)
+		img.Set(centerX-y, centerY-x, color)
+	}
+
+	x, y, d := 0, radius, 3-2*radius
+	putPixel(x, y)
+
+	for y >= x {
+		x++
+		if d > 0 {
+			y--
+			d = d + 4*(x-y) + 10
+		} else {
+			d = d + 4*x + 6
+		}
+		putPixel(x, y)
 	}
 }
 
