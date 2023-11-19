@@ -11,21 +11,37 @@ import (
 )
 
 func main() {
-    log.Println("main")
+    log.Println("Starting...")
 
     // Define flags
     var outputDir string
     var drawCircle bool
+    var showHelp bool
 
     flag.StringVar(&outputDir, "output", "output", "Specify the output directory.")
     flag.StringVar(&outputDir, "o", "output", "Specify the output directory (shorthand).")
     flag.BoolVar(&drawCircle, "circle", false, "Draw circles around faces instead of rectangles.")
     flag.BoolVar(&drawCircle, "c", false, "Draw circles around faces instead of rectangles (shorthand).")
+    flag.BoolVar(&showHelp, "help", false, "Show help message.")
+    flag.BoolVar(&showHelp, "h", false, "Show help message (shorthand).")
+
+    flag.Usage = func() {
+        log.Printf("Usage of %s:\n", os.Args[0])
+        flag.PrintDefaults()
+        log.Println("Provide an image file name or 'all' to process all images in the 'images' directory.")
+    }
+
     flag.Parse()
+
+    if showHelp {
+        flag.Usage()
+        return
+    }
 
     args := flag.Args()
     if len(args) < 1 {
-        log.Fatalf("Usage: %s -o <output path> -c <image path> or %s all", os.Args[0], os.Args[0])
+        flag.Usage()
+        return
     }
     arg := args[0]
 
