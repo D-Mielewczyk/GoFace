@@ -71,6 +71,22 @@ By default, rectangles are drawn around detected faces. You can choose to draw c
 
 The processed images will be saved in the `output` directory with the same file names as the input images.
 
+## Running Tests
+
+To execute the tests for this project, use the following command in the terminal or command prompt:
+
+```powershell
+go test -v ./tests    
+```
+
+his command will run all the tests located in the tests directory. The -v flag provides verbose output, showing detailed information about each test case.
+
+If you prefer a more concise output, indicating only whether the tests passed or failed, you can omit the -v flag:
+
+```powershell
+go test ./tests
+```
+
 ## Acknowledgments and References
 
 ### Pigo - Pure Go Face Detection Library
