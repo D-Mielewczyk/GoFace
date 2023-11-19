@@ -2,9 +2,27 @@
 
 A university project in Golang for face recognition.
 
-## How to run?
+## Running GoFace
 
-In order to run the project, execute the command `go run ./cmd/GoFace`, while being in the main project directory.
+### Using Go Command
+
+To run the GoFace project with Go installed, open a command prompt or terminal and navigate to the main project directory. Then execute the following command:
+
+```powershell
+go run ./cmd/GoFace
+```
+
+This method requires Go to be installed on your system.
+
+### Using the Executable
+
+If you prefer not to install Go or are working on a system without Go, you can use the GoFace.exe executable for ease. Simply replace the command go run ./cmd/GoFace with GoFace.exe in all usage instructions. For instance:
+
+```powershell
+GoFace.exe <arguments>
+```
+
+This executable allows you to run the GoFace project directly, without needing Go installed.
 
 ## CLI Usage
 

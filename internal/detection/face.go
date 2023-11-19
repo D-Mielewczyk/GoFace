@@ -12,9 +12,9 @@ import (
 	pigo "github.com/esimov/pigo/core"
 )
 
-// image_path must be provided hover you can ommit cascade_path for a default value
-func DetectFace(image_path string, cascade_path string, circle bool) {
 
+func DetectFace(image_path string, cascade_path string, circle bool) {
+	// image_path must be provided hover you can ommit cascade_path for a default value
 	if cascade_path == "" {
 		cascade_path = "cascade/facefinder"
 	}
@@ -153,9 +153,6 @@ func drawCircle(img *image.RGBA, centerX, centerY, radius int) {
 }
 
 func convertPath(inputPath string) string {
-	// Extract the file name from the input path
 	fileName := filepath.Base(inputPath)
-
-	// Concatenate the new directory with the file name
 	return filepath.Join("output", fileName)
 }
