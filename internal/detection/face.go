@@ -12,7 +12,6 @@ import (
 	pigo "github.com/esimov/pigo/core"
 )
 
-
 func DetectFace(image_path string, cascade_path string, circle bool) {
 	// image_path must be provided hover you can ommit cascade_path for a default value
 	if cascade_path == "" {
