@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/D-Mielewczyk/GoFace/internal/detection"
+	"github.com/D-Mielewczyk/GoFace/internal/utils"
 )
 
 func main() {
@@ -22,20 +23,27 @@ func main() {
 		detection.DetectFace(imagePath, "", drawCircle)
 	}
 
-	if arg == "all" {
-		files, err := os.ReadDir("images")
-		if err != nil {
-			log.Fatalf("Cannot read images directory: %v", err)
-		}
+	files, err := os.ReadDir("images")
+	if err != nil {
+		log.Fatalf("Cannot read images directory: %v", err)
+	}
 
+	if arg != "all" {
 		for _, file := range files {
-			if !file.IsDir() {
-				imagePath := filepath.Join("images", file.Name())
-				processImage(imagePath)
+			if file.Name() != arg {
+				files = utils.RemoveFromSlice(files, file)
 			}
 		}
-	} else {
-		imagePath := filepath.Join("images", arg)
-		processImage(imagePath)
+
+		if len(files) == 0 {
+			log.Fatalf("File does not exist: %v", filepath.Join("images", arg))
+		}
+	}
+
+	for _, file := range files {
+		if !file.IsDir() {
+			imagePath := filepath.Join("images", file.Name())
+			processImage(imagePath)
+		}
 	}
 }
