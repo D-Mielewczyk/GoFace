@@ -92,7 +92,7 @@ func DetectFace(image_path string, cascade_path string, circle bool) {
 	}
 
 	// Save the modified image
-	output_path := convertPath(image_path)
+	output_path := ConvertPath(image_path)
 	outFile, err := os.Create(output_path)
 	if err != nil {
 		log.Fatalf("Cannot create output file %v, beacouse of:\n%v", output_path, err)
@@ -152,7 +152,7 @@ func drawCircle(img *image.RGBA, centerX, centerY, radius int) {
 	}
 }
 
-func convertPath(inputPath string) string {
+func ConvertPath(inputPath string) string {
 	fileName := filepath.Base(inputPath)
 	return filepath.Join("output", fileName)
 }
