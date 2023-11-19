@@ -89,7 +89,6 @@ func DetectFace(image_path string, cascade_path string) {
 
 	// Save the modified image
 	output_path := convertPath(image_path)
-    log.Printf("OUTPUT_PATH: %v", output_path)
 	outFile, err := os.Create(output_path)
 	if err != nil {
 		log.Fatalf("Cannot create output file %v, beacouse of:\n%v", output_path, err)
