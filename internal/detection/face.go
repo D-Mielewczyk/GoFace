@@ -6,9 +6,10 @@ import (
 	"image/jpeg"
 	"log"
 	"os"
-	"path/filepath"
 
 	pigo "github.com/esimov/pigo/core"
+
+	"github.com/D-Mielewczyk/GoFace/internal/utils"
 )
 
 func DetectFace(image_path, output_dir string, circle bool, cascade_path string) {
@@ -83,15 +84,15 @@ func DetectFace(image_path, output_dir string, circle bool, cascade_path string)
 	for _, det := range dets {
 		if det.Q > 5 {
 			if circle {
-				drawCircle(dst, det.Col, det.Row, det.Scale/2)
+				utils.DrawCircle(dst, det.Col, det.Row, det.Scale/2)
 			} else {
-				drawRectangle(dst, det.Col-det.Scale/2, det.Row-det.Scale/2, det.Scale, det.Scale)
+				utils.DrawRectangle(dst, det.Col-det.Scale/2, det.Row-det.Scale/2, det.Scale, det.Scale)
 			}
 		}
 	}
 
 	// Save the modified image
-	output_path := ConvertPath(image_path, output_dir)
+	output_path := utils.ConvertPath(image_path, output_dir)
 	outFile, err := os.Create(output_path)
     if err != nil {
         log.Fatalf("Cannot create output file %v, because of:\n%v", output_path, err)
@@ -106,7 +107,4 @@ func DetectFace(image_path, output_dir string, circle bool, cascade_path string)
     log.Printf("Output image saved as %v", output_path)
 }
 
-func ConvertPath(input_path string, output_dir string) string {
-	fileName := filepath.Base(input_path)
-	return filepath.Join(output_dir, fileName)
-}
+
