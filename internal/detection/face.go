@@ -18,7 +18,7 @@ func DetectFace(image_path, output_dir string, circle bool, cascade_path string)
 	if cascade_path == "" {
 		cascade_path = "cascade/facefinder"
 	}
-	cascadeFile, err := os.ReadFile(cascade_path)
+	cascade_file, err := os.ReadFile(cascade_path)
 	if err != nil {
 		log.Fatalf("Error reading the cascade file %v, beacouse of:\n%v", cascade_path, err)
 	}
@@ -33,7 +33,7 @@ func DetectFace(image_path, output_dir string, circle bool, cascade_path string)
 	pixels := pigo.RgbToGrayscale(src)
 	cols, rows := src.Bounds().Max.X, src.Bounds().Max.Y
 
-	cParams := pigo.CascadeParams{
+	c_params := pigo.CascadeParams{
 		MinSize:     20,
 		MaxSize:     1000,
 		ShiftFactor: 0.1,
@@ -50,7 +50,7 @@ func DetectFace(image_path, output_dir string, circle bool, cascade_path string)
 	pigo := pigo.NewPigo()
 	// Unpack the binary file. This will return the number of cascade trees,
 	// the tree depth, the threshold and the prediction from tree's leaf nodes.
-	classifier, err := pigo.Unpack(cascadeFile)
+	classifier, err := pigo.Unpack(cascade_file)
 	if err != nil {
 		log.Fatalf("Error reading the cascade file: %s", err)
 	}
@@ -59,18 +59,18 @@ func DetectFace(image_path, output_dir string, circle bool, cascade_path string)
 
 	// Run the classifier over the obtained leaf nodes and return the detection results.
 	// The result contains quadruplets representing the row, column, scale and detection score.
-	dets := classifier.RunCascade(cParams, angle)
+	dets := classifier.RunCascade(c_params, angle)
 
 	// Calculate the intersection over union (IoU) of two clusters.
 	dets = classifier.ClusterDetections(dets, 0.2)
 
-	inFile, err := os.Open(image_path)
+	in_file, err := os.Open(image_path)
 	if err != nil {
 		log.Fatalf("Cannot open the image file: %v", err)
 	}
-	defer inFile.Close()
+	defer in_file.Close()
 
-	img, _, err := image.Decode(inFile)
+	img, _, err := image.Decode(in_file)
 	if err != nil {
 		log.Fatalf("Error decoding image: %v", err)
 	}
@@ -92,13 +92,13 @@ func DetectFace(image_path, output_dir string, circle bool, cascade_path string)
 
 	// Save the modified image
 	output_path := utils.ConvertPath(image_path, output_dir)
-	outFile, err := os.Create(output_path)
+	out_file, err := os.Create(output_path)
 	if err != nil {
 		log.Fatalf("Cannot create output file %v, because of:\n%v", output_path, err)
 	}
-	defer outFile.Close()
+	defer out_file.Close()
 
-	err = jpeg.Encode(outFile, dst, nil)
+	err = jpeg.Encode(out_file, dst, nil)
 	if err != nil {
 		log.Fatalf("Cannot save the image %v, because of:\n%v", output_path, err)
 	}

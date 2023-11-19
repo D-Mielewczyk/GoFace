@@ -11,22 +11,22 @@ import (
 )
 
 func TestConvertPath(t *testing.T) {
-	testCases := []struct {
+	test_cases := []struct {
 		name         string
-		inputPath    string
-		outputDir    string
-		expectedPath string
+		input_path    string
+		output_dir    string
+		expected_path string
 	}{
 		{"Test with JPG file", "images/photo.jpg", "output", filepath.Join("output", "photo.jpg")},
 		{"Test with PNG file", "images/photo.png", "output", filepath.Join("output", "photo.png")},
 		{"Test with nested directory", "images/nested/photo.jpg", "output", filepath.Join("output", "photo.jpg")},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.name, func(t *testing.T) {
-			gotPath := utils.ConvertPath(tc.inputPath, tc.outputDir)
-			if gotPath != tc.expectedPath {
-				t.Errorf("ConvertPath(%s, %s) = %s; want %s", tc.inputPath, tc.outputDir, gotPath, tc.expectedPath)
+	for _, tast_case := range test_cases {
+		t.Run(tast_case.name, func(t *testing.T) {
+			got_path := utils.ConvertPath(tast_case.input_path, tast_case.output_dir)
+			if got_path != tast_case.expected_path {
+				t.Errorf("ConvertPath(%s, %s) = %s; want %s", tast_case.input_path, tast_case.output_dir, got_path, tast_case.expected_path)
 			}
 		})
 	}
@@ -34,27 +34,27 @@ func TestConvertPath(t *testing.T) {
 
 func TestDetectFace(t *testing.T) {
 	// Setup
-	imagePath := "data/test.jpg"
-	cascadePath := "../cascade/facefinder"
+	image_path := "data/test.jpg"
+	cascade_path := "../cascade/facefinder"
 	circle := false
 
 	// Run the function
-	detection.DetectFace(imagePath, "output", circle, cascadePath)
+	detection.DetectFace(image_path, "output", circle, cascade_path)
 
 	// Load the output image
-	outputImg, err := loadImage("output/test.jpg")
+	output_img, err := loadImage("output/test.jpg")
 	if err != nil {
 		t.Fatalf("Failed to load output image: %v", err)
 	}
 
 	// Load the reference image
-	referenceImg, err := loadImage("data/test_result.jpg")
+	reference_img, err := loadImage("data/test_result.jpg")
 	if err != nil {
 		t.Fatalf("Failed to load reference image: %v", err)
 	}
 
 	// Compare images
-	if !imagesEqual(outputImg, referenceImg) {
+	if !imagesEqual(output_img, reference_img) {
 		t.Errorf("Processed image does not match the reference image")
 	}
 }
