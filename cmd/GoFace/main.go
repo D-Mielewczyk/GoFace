@@ -1,49 +1,60 @@
 package main
 
 import (
-	"log"
-	"os"
-	"path/filepath"
+    "flag"
+    "log"
+    "os"
+    "path/filepath"
 
-	"github.com/D-Mielewczyk/GoFace/internal/detection"
-	"github.com/D-Mielewczyk/GoFace/internal/utils"
+    "github.com/D-Mielewczyk/GoFace/internal/detection"
+    "github.com/D-Mielewczyk/GoFace/internal/utils"
 )
 
 func main() {
-	log.Println("main")
+    log.Println("main")
 
-	if len(os.Args) < 2 {
-		log.Fatalf("Usage: %s <image path> or %s all [circle]", os.Args[0], os.Args[0])
-	}
-	arg := os.Args[1]
-	drawCircle := len(os.Args) > 2 && os.Args[2] == "circle"
+    // Define flags
+    var outputDir string
+    var drawCircle bool
 
-	processImage := func(imagePath string) {
-		log.Printf("Processing file: %s", imagePath)
-		detection.DetectFace(imagePath, "", drawCircle)
-	}
+    flag.StringVar(&outputDir, "output", "output", "Specify the output directory.")
+    flag.StringVar(&outputDir, "o", "output", "Specify the output directory (shorthand).")
+    flag.BoolVar(&drawCircle, "circle", false, "Draw circles around faces instead of rectangles.")
+    flag.BoolVar(&drawCircle, "c", false, "Draw circles around faces instead of rectangles (shorthand).")
+    flag.Parse()
 
-	files, err := os.ReadDir("images")
-	if err != nil {
-		log.Fatalf("Cannot read images directory: %v", err)
-	}
+    args := flag.Args()
+    if len(args) < 1 {
+        log.Fatalf("Usage: %s -o <output path> -c <image path> or %s all", os.Args[0], os.Args[0])
+    }
+    arg := args[0]
 
-	if arg != "all" {
-		for _, file := range files {
-			if file.Name() != arg {
-				files = utils.RemoveFromSlice(files, file)
-			}
-		}
+    processImage := func(imagePath string) {
+        log.Printf("Processing file: %s", imagePath)
+        detection.DetectFace(imagePath, outputDir, drawCircle, "")
+    }
 
-		if len(files) == 0 {
-			log.Fatalf("File does not exist: %v", filepath.Join("images", arg))
-		}
-	}
+    files, err := os.ReadDir("images")
+    if err != nil {
+        log.Fatalf("Cannot read images directory: %v", err)
+    }
 
-	for _, file := range files {
-		if !file.IsDir() {
-			imagePath := filepath.Join("images", file.Name())
-			processImage(imagePath)
-		}
-	}
+    if arg != "all" {
+        for _, file := range files {
+            if file.Name() != arg {
+                files = utils.RemoveFromSlice(files, file)
+            }
+        }
+
+        if len(files) == 0 {
+            log.Fatalf("File does not exist: %v", filepath.Join("images", arg))
+        }
+    }
+
+    for _, file := range files {
+        if !file.IsDir() {
+            imagePath := filepath.Join("images", file.Name())
+            processImage(imagePath)
+        }
+    }
 }

@@ -10,35 +10,35 @@ import (
 )
 
 func TestConvertPath(t *testing.T) {
-	testCases := []struct {
-		name         string
-		inputPath    string
-		expectedPath string
-	}{
-		{"Test with JPG file", "images/photo.jpg", filepath.Join("output", "photo.jpg")},
-		{"Test with PNG file", "images/photo.png", filepath.Join("output", "photo.png")},
-		{"Test with nested directory", "images/nested/photo.jpg", filepath.Join("output", "photo.jpg")},
-		// Add more test cases as needed
-	}
+    testCases := []struct {
+        name         string
+        inputPath    string
+        outputDir    string
+        expectedPath string
+    }{
+        {"Test with JPG file", "images/photo.jpg", "output", filepath.Join("output", "photo.jpg")},
+        {"Test with PNG file", "images/photo.png", "output", filepath.Join("output", "photo.png")},
+        {"Test with nested directory", "images/nested/photo.jpg", "output", filepath.Join("output", "photo.jpg")},
+    }
 
-	for _, tc := range testCases {
-		t.Run(tc.name, func(t *testing.T) {
-			gotPath := detection.ConvertPath(tc.inputPath)
-			if gotPath != tc.expectedPath {
-				t.Errorf("convertPath(%s) = %s; want %s", tc.inputPath, gotPath, tc.expectedPath)
-			}
-		})
-	}
+    for _, tc := range testCases {
+        t.Run(tc.name, func(t *testing.T) {
+            gotPath := detection.ConvertPath(tc.inputPath, tc.outputDir)
+            if gotPath != tc.expectedPath {
+                t.Errorf("ConvertPath(%s, %s) = %s; want %s", tc.inputPath, tc.outputDir, gotPath, tc.expectedPath)
+            }
+        })
+    }
 }
 
 func TestDetectFace(t *testing.T) {
 	// Setup
 	imagePath := "data/test.jpg"
 	cascadePath := "../cascade/facefinder"
-	circle := false // or true, depending on your test case
+	circle := false
 
 	// Run the function
-	detection.DetectFace(imagePath, cascadePath, circle)
+	detection.DetectFace(imagePath, "output", circle, cascadePath)
 
 	// Load the output image
 	outputImg, err := loadImage("output/test.jpg")

@@ -12,12 +12,13 @@ import (
 	pigo "github.com/esimov/pigo/core"
 )
 
-func DetectFace(image_path string, cascade_path string, circle bool) {
+func DetectFace(image_path, output_dir string, circle bool, cascade_path string) {
 	// image_path must be provided hover you can ommit cascade_path for a default value
-	if cascade_path == "" {
+	log.Println("Starting...")
+
+	if cascade_path == ""{
 		cascade_path = "cascade/facefinder"
 	}
-	log.Println("Starting...")
 	cascadeFile, err := os.ReadFile(cascade_path)
 	if err != nil {
 		log.Fatalf("Error reading the cascade file %v, beacouse of:\n%v", cascade_path, err)
@@ -91,19 +92,19 @@ func DetectFace(image_path string, cascade_path string, circle bool) {
 	}
 
 	// Save the modified image
-	output_path := ConvertPath(image_path)
+	output_path := ConvertPath(image_path, output_dir)
 	outFile, err := os.Create(output_path)
-	if err != nil {
-		log.Fatalf("Cannot create output file %v, beacouse of:\n%v", output_path, err)
-	}
-	defer outFile.Close()
+    if err != nil {
+        log.Fatalf("Cannot create output file %v, because of:\n%v", output_path, err)
+    }
+    defer outFile.Close()
 
-	err = jpeg.Encode(outFile, dst, nil)
-	if err != nil {
-		log.Fatalf("Cannot save the image %v, beacouse of:\n%v", output_path, err)
-	}
+    err = jpeg.Encode(outFile, dst, nil)
+    if err != nil {
+        log.Fatalf("Cannot save the image %v, because of:\n%v", output_path, err)
+    }
 
-	log.Printf("Output image saved as %v", output_path)
+    log.Printf("Output image saved as %v", output_path)
 }
 
 func drawRectangle(img *image.RGBA, x, y, width, height int) {
@@ -151,7 +152,7 @@ func drawCircle(img *image.RGBA, centerX, centerY, radius int) {
 	}
 }
 
-func ConvertPath(inputPath string) string {
-	fileName := filepath.Base(inputPath)
-	return filepath.Join("output", fileName)
+func ConvertPath(input_path string, output_dir string) string {
+	fileName := filepath.Base(input_path)
+	return filepath.Join(output_dir, fileName)
 }
