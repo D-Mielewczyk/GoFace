@@ -2,9 +2,12 @@ package main
 
 import (
     "fmt"
+    "image"
+    "image/color"
+    "image/draw"
+    "image/jpeg"
     "log"
     "os"
-    _ "image/jpeg"
 
     pigo "github.com/esimov/pigo/core"
 )
@@ -56,4 +59,56 @@ func main() {
     
     // Calculate the intersection over union (IoU) of two clusters.
     dets = classifier.ClusterDetections(dets, 0.2)
+
+    inFile, err := os.Open("images/ja.jpg")
+    if err != nil {
+        log.Fatalf("Cannot open the image file: %v", err)
+    }
+    defer inFile.Close()
+
+    img, _, err := image.Decode(inFile)
+    if err != nil {
+        log.Fatalf("Error decoding image: %v", err)
+    }
+
+    // Create a new image for the output
+    dst := image.NewRGBA(img.Bounds())
+    draw.Draw(dst, img.Bounds(), img, image.Point{}, draw.Src)
+
+    // Draw rectangles around detected faces
+    for _, det := range dets {
+        if det.Q > 5 {
+            drawRectangle(dst, det.Col-det.Scale/2, det.Row-det.Scale/2, det.Scale, det.Scale)
+        }
+    }
+
+    // Save the modified image
+    outFile, err := os.Create("output.jpg")
+    if err != nil {
+        log.Fatalf("Cannot create output file: %v", err)
+    }
+    defer outFile.Close()
+
+    err = jpeg.Encode(outFile, dst, nil)
+    if err != nil {
+        log.Fatalf("Cannot save the image: %v", err)
+    }
+
+    fmt.Println("Output image saved as output.jpg")
+}
+
+func drawRectangle(img *image.RGBA, x, y, width, height int) {
+    red := color.RGBA{255, 0, 0, 255}
+
+    // Draw horizontal lines
+    for i := x; i < x+width; i++ {
+        img.Set(i, y, red)
+        img.Set(i, y+height, red)
+    }
+
+    // Draw vertical lines
+    for i := y; i < y+height; i++ {
+        img.Set(x, i, red)
+        img.Set(x+width, i, red)
+    }
 }
