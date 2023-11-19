@@ -7,28 +7,29 @@ import (
 	"testing"
 
 	"github.com/D-Mielewczyk/GoFace/internal/detection"
+	"github.com/D-Mielewczyk/GoFace/internal/utils"
 )
 
 func TestConvertPath(t *testing.T) {
-    testCases := []struct {
-        name         string
-        inputPath    string
-        outputDir    string
-        expectedPath string
-    }{
-        {"Test with JPG file", "images/photo.jpg", "output", filepath.Join("output", "photo.jpg")},
-        {"Test with PNG file", "images/photo.png", "output", filepath.Join("output", "photo.png")},
-        {"Test with nested directory", "images/nested/photo.jpg", "output", filepath.Join("output", "photo.jpg")},
-    }
+	testCases := []struct {
+		name         string
+		inputPath    string
+		outputDir    string
+		expectedPath string
+	}{
+		{"Test with JPG file", "images/photo.jpg", "output", filepath.Join("output", "photo.jpg")},
+		{"Test with PNG file", "images/photo.png", "output", filepath.Join("output", "photo.png")},
+		{"Test with nested directory", "images/nested/photo.jpg", "output", filepath.Join("output", "photo.jpg")},
+	}
 
-    for _, tc := range testCases {
-        t.Run(tc.name, func(t *testing.T) {
-            gotPath := detection.ConvertPath(tc.inputPath, tc.outputDir)
-            if gotPath != tc.expectedPath {
-                t.Errorf("ConvertPath(%s, %s) = %s; want %s", tc.inputPath, tc.outputDir, gotPath, tc.expectedPath)
-            }
-        })
-    }
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			gotPath := utils.ConvertPath(tc.inputPath, tc.outputDir)
+			if gotPath != tc.expectedPath {
+				t.Errorf("ConvertPath(%s, %s) = %s; want %s", tc.inputPath, tc.outputDir, gotPath, tc.expectedPath)
+			}
+		})
+	}
 }
 
 func TestDetectFace(t *testing.T) {

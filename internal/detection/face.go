@@ -12,7 +12,7 @@ import (
 )
 
 func DetectFace(image_path, output_dir string, circle bool, cascade_path string) {
-	// image_path must be provided hover you can ommit cascade_path for a default value
+	// you can ommit cascade_path for a default value
 	log.Println("Starting...")
 
 	if cascade_path == "" {
