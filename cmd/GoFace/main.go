@@ -1,12 +1,15 @@
 package main
+
 import (
-    "fmt"
-    "github.com/vee2xx/camtron"
+	"fmt"
+	"github.com/D-Mielewczyk/GoFace/internal/consumers"
+	"github.com/vee2xx/camtron"
 )
+
 func main() {
-    fmt.Println("Starting...")
-    camtron.StartStreamToFileConsumer()
-    fmt.Println("Working...")
-    camtron.StartCam()
-    fmt.Println("Ending...")
+	fmt.Println("Starting...")
+	consumers.StartImageCaptureConsumer()
+	fmt.Println("Working...")
+	camtron.StartCam()
+	fmt.Println("Ending...")
 }
