@@ -16,10 +16,10 @@ This method requires Go to be installed on your system.
 
 ### Using the Executable
 
-If you prefer not to install Go or are working on a system without Go, you can use the GoFace.exe executable for ease. Simply replace the command go run ./cmd/GoFace with GoFace.exe in all usage instructions. For instance:
+If you prefer not to install Go or are working on a system without Go, you can use the GoFace.exe executable for ease. Simply replace the command go run ./cmd/GoFace with `./GoFace.exe`` in all usage instructions. For instance:
 
 ```powershell
-GoFace.exe <arguments>
+./GoFace.exe <arguments>
 ```
 
 This executable allows you to run the GoFace project directly, without needing Go installed.
